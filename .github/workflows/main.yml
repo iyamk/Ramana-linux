@@ -1,0 +1,9 @@
+on:
+  workflow_dispatch:
+jobs:
+  job:
+    name: deploy to staging
+    runs-on: ubuntu-18.04
+    steps:
+    - name: run build
+      run: ./build.sh
