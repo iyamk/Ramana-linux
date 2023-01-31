@@ -7,6 +7,6 @@ Meet super system, new design and new look. Based on arch linux. We are looking 
 
 After downloading, you can build the distribution with the command:
 ```
-./buuld.sh
+./build.sh
 ```
 After making, the file will be in the **out** folder
