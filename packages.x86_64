@@ -121,3 +121,7 @@ wvdial
 xfsprogs
 xl2tpd
 zsh
+xorg-server
+lightdm
+lightdm-gtk-greeter
+xfce4
