@@ -3,6 +3,8 @@
 
 Meet super system, new design and new look. Based on arch linux. We are looking for developers to come up with something new
 
+Builded on archiso 70-1
+
 ## How to make
 
 You need Arch linux to build

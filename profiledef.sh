@@ -2,10 +2,10 @@
 # shellcheck disable=SC2034
 
 iso_name="archlinux"
-iso_label="ARCH_$(date +%Y%m)"
+iso_label="ARCH_$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y%m)"
 iso_publisher="Arch Linux <https://archlinux.org>"
 iso_application="Arch Linux Live/Rescue CD"
-iso_version="$(date +%Y.%m.%d)"
+iso_version="$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y.%m.%d)"
 install_dir="arch"
 buildmodes=('iso')
 bootmodes=('bios.syslinux.mbr' 'bios.syslinux.eltorito'
@@ -22,5 +22,4 @@ file_permissions=(
   ["/usr/local/bin/choose-mirror"]="0:0:755"
   ["/usr/local/bin/Installation_guide"]="0:0:755"
   ["/usr/local/bin/livecd-sound"]="0:0:755"
-  ["/root/install.sh"]="0:0:755"
 )

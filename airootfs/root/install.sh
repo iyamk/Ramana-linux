@@ -2,6 +2,18 @@
 
 clear
 
+localesar=()
+localesar+=(en_US.UTF-8 UTF-8)
+while read a b; do
+  localesar+=("$a $b" "$a")
+done < /usr/share/i18n/SUPPORTED
+localesel=$(dialog  --menu "Select locale" 25 50 25 "${localesar[@]}" 2>&1 >/dev/tty)
+clear
+sed -r "s/#$localesel/$localesel/" /etc/locale.gen
+echo $localesel
+
+exit
+
 echo -n 'Enter partition or disk to install (for example /dev/sda1): '
 read part
 #mount $part /mnt
