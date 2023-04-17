@@ -14,3 +14,7 @@ After downloading, you can build the distribution with the command:
 ./build.sh
 ```
 After making, the file will be in the **out** folder
+
+## Contribution
+
+We need the support of India and other countries! You can submit a pull request without special rules. Or you can buy us a domain and hosting so that we can settle down
