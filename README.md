@@ -1,7 +1,6 @@
-# Cyber linux
-## New and modern system with an eye to the future
+# Ramana Maharshi linux
 
-Meet super system, new design and new look. Based on arch linux. We are looking for developers to come up with something new
+This Linux dedicated to Sri Ramana Maharshi!
 
 Builded on archiso 70-1
 

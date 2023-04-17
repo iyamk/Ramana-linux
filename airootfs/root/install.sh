@@ -18,7 +18,6 @@ show_sel_locale()
     r=$?
     clear
     [ "$r" -gt "0" ] && echo "Canceled by user" && exit
-    #sed -r "s/#$localesel/$localesel/" -i /etc/locale.gen
     install_locale=$localesel
     show_sel_country
 }
@@ -92,12 +91,12 @@ show_sel_part()
 
 install_base()
 {
-    mkfs.ext4 $install_part
-    mount $install_part /mnt
-    pacstrap -K /mnt base linux linux-firmware | dialog --progressbox "Installing base system" 25 80
-    packages='dhcpcd nano grub2 efibootmgr'
-    arch-chroot /mnt pacman --noconfirm -S $packages | dialog --progressbox "Installing packages" 25 80
-    genfstab -U /mnt >> /mnt/etc/fstab
+    # mkfs.ext4 $install_part
+    # mount $install_part /mnt
+    # pacstrap -K /mnt base linux linux-firmware | dialog --progressbox "Installing base system" 25 80
+    # packages='dhcpcd nano grub2 efibootmgr'
+    # arch-chroot /mnt pacman --noconfirm -S $packages | dialog --progressbox "Installing packages" 25 80
+    # genfstab -U /mnt >> /mnt/etc/fstab
     show_sel_timezone
 }
 
@@ -114,42 +113,43 @@ show_sel_timezone()
     r=$?
     clear
     [ "$r" -gt "0" ] && echo "Canceled by user" && exit
-    arch-chroot /mnt ln -sf /usr/share/zoneinfo/$timezonesel /etc/localtime
-    arch-chroot /mnt hwclock --systohc
+    # arch-chroot /mnt ln -sf /usr/share/zoneinfo/$timezonesel /etc/localtime
+    # arch-chroot /mnt hwclock --systohc
     show_locale_gen
 }
 
-show_locale_gen()
+install_second()
 {
-	echo -e '\nNow the file with locales will be opened. Choose the one you want and save your changes\n[ Press Enter ]'
-	read
+	arch-chroot /mnt sed -r "s/#$install_locale/$install_locale/" -i /etc/locale.gen
+	arch-chroot /mnt locale-gen | dialog --progressbox "Generation lacale" 25 80
 
-	arch-chroot /mnt nano /etc/locale.gen
-	arch-chroot /mnt locale-gen
+	echo "LANG=$install_locale" > /mnt/etc/locale.conf
+	echo 'RamanaMaharshi' > /mnt/etc/hostname
 
-	echo 'LANG=en_US.UTF-8' > /mnt/etc/locale.conf
-
-	echo 'Buddha' > /mnt/etc/hostname
-
+    clear
 	echo -e '\nEnter the password for the root user:'
 	arch-chroot /mnt passwd
 
+    clear
 	echo -e '\nEnter a name for a normal user (for example user): '
 	read user
-
 	arch-chroot /mnt useradd -m $user
 
+    clear
 	echo -e '\nEnter password for a normal user:'
 	arch-chroot /mnt passwd $user
 
+    clear
 	echo -e '\nEnter the drive (not partition) to install grub2 (for example /dev/sda): '
 	read disk
 
+    clear
 	arch-chroot /mnt grub-install --target=i386-pc $disk
 	arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 	umount /mnt
 
+    clear
 	echo -e '\nInstallation completed!\nNow you can reboot your computer with the command: reboot'
 }
 
