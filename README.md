@@ -1,6 +1,7 @@
 # Ramana Maharshi linux
+## This Linux dedicated to Sri Ramana Maharshi!
 
-This Linux dedicated to Sri Ramana Maharshi!
+![Sri Ramana Maharshi](https://image.jimcdn.com/app/cms/image/transf/none/path/se80bcf7e1bbfb507/image/ic6af81c2e1ef9320/version/1585001787/image.jpg)
 
 Builded on archiso 70-1
 
