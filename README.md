@@ -1,13 +1,20 @@
-# Ramana Maharshi linux
+# Ramana linux
 ## This Linux dedicated to Sri Ramana Maharshi!
 
-![Sri Ramana Maharshi](https://image.jimcdn.com/app/cms/image/transf/none/path/se80bcf7e1bbfb507/image/ic6af81c2e1ef9320/version/1585001787/image.jpg)
+![Sri Ramana Maharshi](https://i.ibb.co/r4rySXR/1585001787.jpg)
 
-Builded on archiso 70-1
+Builded on archiso 71-1
+
+[Changelog](CHANGELOG.md)
 
 ## How to make
 
-You need Arch linux to build
+You need Arch linux
+
+Install needed packages:
+```
+pacman -Syu && pacman -S archiso
+```
 
 After downloading, you can build the distribution with the command:
 ```
@@ -15,6 +22,10 @@ After downloading, you can build the distribution with the command:
 ```
 After making, the file will be in the **out** folder
 
+## Testing
+
+Run script **qemu_test.sh** to start the emulator
+
 ## Contribution
 
-We need the support of India and other countries! You can submit a pull request without special rules. Or you can buy us a domain and hosting so that we can settle down
+You can submit a pull request

@@ -91,12 +91,12 @@ show_sel_part()
 
 install_base()
 {
-    # mkfs.ext4 $install_part
-    # mount $install_part /mnt
-    # pacstrap -K /mnt base linux linux-firmware | dialog --progressbox "Installing base system" 25 80
-    # packages='dhcpcd nano grub2 efibootmgr'
-    # arch-chroot /mnt pacman --noconfirm -S $packages | dialog --progressbox "Installing packages" 25 80
-    # genfstab -U /mnt >> /mnt/etc/fstab
+    mkfs.ext4 $install_part
+    mount $install_part /mnt
+    pacstrap -K /mnt base linux linux-firmware | dialog --progressbox "Installing base system" 25 80
+    packages='dhcpcd nano grub2 efibootmgr'
+    arch-chroot /mnt pacman --noconfirm -S $packages | dialog --progressbox "Installing packages" 25 80
+    genfstab -U /mnt >> /mnt/etc/fstab
     show_sel_timezone
 }
 
@@ -113,8 +113,8 @@ show_sel_timezone()
     r=$?
     clear
     [ "$r" -gt "0" ] && echo "Canceled by user" && exit
-    # arch-chroot /mnt ln -sf /usr/share/zoneinfo/$timezonesel /etc/localtime
-    # arch-chroot /mnt hwclock --systohc
+    arch-chroot /mnt ln -sf /usr/share/zoneinfo/$timezonesel /etc/localtime
+    arch-chroot /mnt hwclock --systohc
     show_locale_gen
 }
 
@@ -124,28 +124,37 @@ install_second()
 	arch-chroot /mnt locale-gen | dialog --progressbox "Generation lacale" 25 80
 
 	echo "LANG=$install_locale" > /mnt/etc/locale.conf
-	echo 'RamanaMaharshi' > /mnt/etc/hostname
+	echo 'linux' > /mnt/etc/hostname
 
     clear
-	echo -e '\nEnter the password for the root user:'
+	echo -e '\nEnter the password for root user: '
 	arch-chroot /mnt passwd
 
     clear
-	echo -e '\nEnter a name for a normal user (for example user): '
+	echo -e '\nEnter a name for a normal user: '
 	read user
 	arch-chroot /mnt useradd -m $user
 
     clear
-	echo -e '\nEnter password for a normal user:'
+	echo -e '\nEnter password for a normal user: '
 	arch-chroot /mnt passwd $user
 
     clear
-	echo -e '\nEnter the drive (not partition) to install grub2 (for example /dev/sda): '
-	read disk
 
-    clear
-	arch-chroot /mnt grub-install --target=i386-pc $disk
-	arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+    bootloaderar=(
+        "skip" "1"
+        "grub2 without efi" "2"
+    )
+    bootloadersel=$(dialog --menu "Installing bootloader" 25 40 25 "${bootloaderar[@]}" 2>&1 >/dev/tty)
+    r=$?
+    [ "$r" -gt "0" ] && echo "Canceled by user" && exit
+    if [ "$bootloadersel" = "grub2 without efi" ]; then
+        echo -e '\nEnter the drive (not partition) to install grub2 (for example /dev/sda): '
+        read disk
+        clear
+        arch-chroot /mnt grub-install --target=i386-pc $disk
+        arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+    fi
 
 	umount /mnt
 
